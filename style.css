@@ -1,0 +1,21 @@
+body {
+    /* Dark-mode style */
+    background-color: #1a1a1a;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+h1 {
+    line-height: 0.5;
+}
+
+/* a:visited looks weird when the background is dark so change that */
+
+a:visited {
+    color: rgb(83, 210, 226);
+}
+
+a:link {
+    color: rgb(83, 210, 226);
+}
+
