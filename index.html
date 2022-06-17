@@ -14,7 +14,22 @@
         <div>
             <h1>Horion Mapart Converter</h1>
             <div>Convert mapart from <a href="https://rebane2001.com/mapartcraft/">MapartCraft</a> to Horion NBT</div>
+            <br>
+            <div>
+                Tips for converting:
+                <ul>
+                    <li>Disable dithering for less NPC's you have to place</li>
+                    <li>Disable staircasing for a completely flat schematic, only use if you <b>NEED</b> the extra color depth.</li>
+                </ul>
+                    
+            </div>
+            <br>
         </div>
-
+        <div>
+            <!-- Upload file, call js function with buffer of uploaded file -->
+            <input type="file" id="file" onchange="convert(this.files[0])">
+            <br>
+            <textarea id="output">Output Horion NBT here</textarea>
+        </div>
     </body>
 </html>
