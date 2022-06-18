@@ -255,7 +255,7 @@ async function convert(file){
         */
         // old kill button
         // add kill command to the end of this button
-        buttons[i].push({
+        buttons[i].data.push({
             "cmd_line": "kill@e[type=npc,r=1]",
             "cmd_ver": 12
         })
@@ -263,8 +263,8 @@ async function convert(file){
         // console.log(buttons[i])
         // console.log(JSON.stringify(killButton), JSON.stringify(buttons[i]))
         npcs.push(
-            `{Block:{name:"minecraft:moving_block",states:{},version:17959425},Count:1b,Damage:0s,Slot:<!SLOTPLACEHOLDER!>,Name:"minecraft:moving_block",WasPickedUp:0b,tag:{display:{Lore:["Â§rÂ§ePlace in the Â§lNorthwestÂ§rÂ§e corner of the build.","Â§eMade with Â§b<3Â§rÂ§e by mmccall0813"],Name:"Â§eÂ§l(${i+1}/${buttons.length}) Â§rÂ§rMapart NPC Spawner"},ench:[{id:28s,lvl:1s}],movingBlock:{name:"minecraft:bee_nest"},movingEntity:{Occupants:[{ActorIdentifier:"minecraft:npc<>",SaveData:{InterativeText:"Â§lÂ§8Made with Â§c<3Â§8 by Â§rÂ§2mmccall0813#0943. Â§lÂ§6(${i+1}/${buttons.length})",Actions:"[`
-            + JSON.stringify(killButton) + "," + JSON.stringify(buttons[i]) +
+            `{Block:{name:"minecraft:moving_block",states:{},version:17959425},Count:1b,Damage:0s,Slot:<!SLOTPLACEHOLDER!>,Name:"minecraft:moving_block",WasPickedUp:0b,tag:{display:{Lore:["Â§rÂ§ePlace in the Â§lNorthwestÂ§rÂ§e corner of the build.","Â§eMade with Â§b<3Â§rÂ§e by mmccall0813", "Â§rÂ§lÂ§cImported from ${file.name}"],Name:"Â§eÂ§l(${i+1}/${buttons.length}) Â§rÂ§rMapart NPC Spawner"},ench:[{id:28s,lvl:1s}],movingBlock:{name:"minecraft:bee_nest"},movingEntity:{Occupants:[{ActorIdentifier:"minecraft:npc<>",SaveData:{InterativeText:"Â§lÂ§8Made with Â§c<3Â§8 by Â§rÂ§2mmccall0813#0943. Â§lÂ§6(${i+1}/${buttons.length})",Actions:"[`
+            + JSON.stringify(buttons[i]) +
             `]",Persistent:1b,Variant:19},TicksLeftToStay:0}],id:"Beehive"},pistonPosX:0,pistonPosY:0,pistonPosZ:0}}`
         )
     }
@@ -287,7 +287,7 @@ async function convert(file){
         boxes.push(
             `{Block:{name:"minecraft:shulker_box",states:{color:"orange"},version:17959425},Count:1b,Damage:0s,Name:"minecraft:shulker_box",WasPickedUp:0b,Slot:${i/27}b,tag:{Items:[`
             + items.join(",") +
-        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)"],Name:"Â§rÂ§lÂ§cMapart Shulker ${boxes.length === npcs.length > 27 ? "" : i/27 + 1}"},ench:[{id:28s,lvl:1s}]}}`
+        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)", "Â§rÂ§lÂ§cImported from ${file.name}"],Name:"Â§rÂ§lÂ§cMapart Shulker ${boxes.length === npcs.length > 27 ? "" : i/27 + 1}"},ench:[{id:28s,lvl:1s}]}}`
         );
     }
 
@@ -299,7 +299,7 @@ async function convert(file){
     } else {
         textArea.value = `{Block:{name:"minecraft:shulker_box",states:{color:"red"},version:17959425},Count:1b,Damage:0s,Name:"minecraft:shulker_box",WasPickedUp:0b,tag:{Items:[`
         + boxes.join(",") +
-        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)"],Name:"Â§rÂ§lÂ§eMapart Shulker (nested)"},ench:[{id:28s,lvl:1s}]}}`;
+        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)", "Â§rÂ§lÂ§cImported from ${file.name}"],Name:"Â§rÂ§lÂ§eMapart Shulker (nested)"},ench:[{id:28s,lvl:1s}]}}`;
         // console.log("multiple boxes");
     }
 
@@ -315,14 +315,16 @@ function download(){
     const textArea = document.getElementById("output");
     let text = textArea.value;
     let file = new Blob([text], {type: "text/plain;charset=utf-8"});
+    let fileInput = document.getElementById("file");
+    let filename = fileInput.files[0].name.replace(/\.[^/.]+$/, "") + ".json";
 
     if (window.navigator.msSaveOrOpenBlob) // IE10+
-        window.navigator.msSaveOrOpenBlob(file, "mapart.json");
+        window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
         var a = document.createElement("a"),
                 url = URL.createObjectURL(file);
         a.href = url;
-        a.download = "mapart.json";
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         setTimeout(function() {

@@ -15,13 +15,30 @@
             <h1>Horion Mapart Converter</h1>
             <div>Convert mapart from <a href="https://rebane2001.com/mapartcraft/">MapartCraft</a> to Horion NBT</div>
             <br>
+            <div>Unfortunately, due to limitations with Minecraft NPCs, all setblock and fill commands cannot be put into one.<br>Due to this limitation, have to split the commands into multiple NPCs, placing them one after the other and pressing the Build button.</div>
+            <br>
             <div>
-                Tips for converting:
+                Tips for MapartCraft:
                 <ul>
-                    <li>Disable dithering for less NPC's you have to place</li>
                     <li>Disable staircasing for a completely flat schematic, only use if you <b>NEED</b> the extra color depth.</li>
                 </ul>
-                    
+                <br>
+                Tips for placing:
+                <ul>
+                    <li>After the first NPC, break the cobblestone block above the NPC before placing the others.</li>
+                    <li>If staircasing is off, then place the npc's one block north of the top block of the map,<br>this is to compensate for MapartCraft putting a cobblestone line at the top of the map.</li>
+                    <br>
+                    <li>Keep in mind that block placing follows the limits of setblock and fill commands,<br>so if your art is multiple maps (more that 2x2) split it into 1x1 chunks so it doesn't fail to place</li>
+                </ul>
+                <br>
+                Usage:
+                <ul>
+                    <li>Visit <a href="https://rebane2001.com/mapartcraft/">MapArtcraft</a> and import your image</li>
+                    <li>From the left, select the blocks you want to use, if you're not sure, just use the Everything preset</li>
+                    <li>Adjust the options on the right (mess around with dithering and brightness to make your image look best)</li>
+                    <li>Hit the <b>Download NBT</b> button, and import the downloaded .nbt file on this website</li>
+                    <li>Wait a few seconds for the converter to do its magic, and either copy the nbt in the text box, or press the Download button.</li>
+                </ul>
             </div>
             <br>
         </div>
