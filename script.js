@@ -243,6 +243,7 @@ async function convert(file){
     let npcs = [];
 
     for(let i = 0; i < buttons.length; i++){
+        /*
         let killButton = {
             ...buttonTemplate,
             button_name: `Â§bÂ§lKill NPC`,
@@ -251,6 +252,14 @@ async function convert(file){
             ],
             text: "no peeky (<3 mmccall0813#0943)"
         }
+        */
+        // old kill button
+        // add kill command to the end of this button
+        buttons[i].push({
+            "cmd_line": "kill@e[type=npc,r=1]",
+            "cmd_ver": 12
+        })
+
         // console.log(buttons[i])
         // console.log(JSON.stringify(killButton), JSON.stringify(buttons[i]))
         npcs.push(
