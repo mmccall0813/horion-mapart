@@ -27,9 +27,12 @@
         </div>
         <div>
             <!-- Upload file, call js function with buffer of uploaded file -->
+            <div>Status: <span id="status">IDLE</span></div>
             <input type="file" id="file" onchange="convert(this.files[0])">
             <br>
-            <textarea id="output">Output Horion NBT here</textarea>
+            <textarea id="output" spellcheck="false">Output Horion NBT here</textarea>
+            <br>
+            <button onclick="download()">Download</button>
         </div>
     </body>
 </html>

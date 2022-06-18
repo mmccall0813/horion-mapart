@@ -1,6 +1,6 @@
 // browser javascript, using browserify imports for prismarine-nbt
 
-const { Buffer } = require('buffer')
+const { Buffer } = require('buffer');
 const prismarineNbt = require('prismarine-nbt');
 
 // we are importing java edition schematics, but we need bedrock edition blocks, so we have a map of java blocks to bedrock blocks
@@ -104,10 +104,13 @@ async function convert(file){
     const nbt = await prismarineNbt.parse(Buffer.from(buffer));
     const schem = nbt.parsed.value;
 
-    console.log(schem);
+    // console.log(schem); // debug log - TODO: remove
 
     const textArea = document.getElementById('output');
     textArea.value = '';
+    const status = document.getElementById('status');
+
+    status.innerText = 'Converting...';
 
     // Convert all blocks in the schematic to setblock and fill commands
     
@@ -119,7 +122,7 @@ async function convert(file){
 
     let clumps = [];
     let clump = [];
-    let maxClumpSize = 256;
+    let maxClumpSize = 32767;
 
     schem.blocks.value.value.forEach( (block, index) => {
         /*
@@ -138,18 +141,18 @@ async function convert(file){
         // value value value blah blah blah
         const bedrockBlock = getBedrockBlock(blockState);
         const blockJSON = {
-            pos: [block.pos.value[0], block.pos.value[1], block.pos.value[2]],
+            pos: [block.pos.value.value[0], block.pos.value.value[1], block.pos.value.value[2]],
             block: bedrockBlock
         }
         if(clump.length > 0){
             if(clump.length > maxClumpSize){
                 clumps.push(clump);
                 clump = [];
-            }
+            } else
             if(distance(clump[clump.length - 1].pos, blockJSON.pos) > 1){
                 clumps.push(clump);
                 clump = [];
-            }
+            } else
             if(clump[clump.length - 1].block !== bedrockBlock){
                 clumps.push(clump);
                 clump = [];
@@ -185,7 +188,137 @@ async function convert(file){
     })
     // save a little memory by removing the clumps array
     clumps = null;
-    
 
-    console.log(commands.length);
+    // how many commands do we have?
+    //console.log("Commands amount: " + commands.length); // debug log - TODO: remove
+
+    // convert commands to npc lines
+    let lines = [];
+    commands.forEach( (command) => {
+        lines.push({
+            "cmd_line": command,
+            "cmd_ver": 12 // this line required for the button to show up, its annoying but its required
+        })
+    })
+    // save a little memory by removing the commands array
+    // console.log(commands[0]);
+    commands = null;
+
+    // console.log(lines); // debug log - TODO: remove
+
+    // seperate into chunks of 400 lines
+    let chunks = [];
+
+    for(let i = 0; i < lines.length; i += 400){
+        chunks.push(lines.slice(i, i + 400));
+    }
+
+    // console.log(chunks);
+    // console.log("NPC amount: " + chunks.length);
+
+    let buttons = [];
+    let buttonTemplate = {
+        "button_name": "",
+        "data": [
+            /* command lines here */
+        ],
+        "mode": 0, // 0 = button, 1, 1 = on enter, 2 = on exit
+        "text": "", // what shows in the command editor, oddly different from the command lines
+        "type": 1 // no clue what this does, might be 0 = command, 1 = url
+    }
+
+    // convert chunks to npc buttons
+    for(var i = 0; i < chunks.length; i++){
+        let button = JSON.parse(JSON.stringify(buttonTemplate));
+        button.button_name = `Â§eÂ§lBuild`;
+        button.text = "hehehe no peeky (<3 mmccall0813#0943)";
+        button.data = chunks[i];
+        buttons.push(button);
+    }
+
+    // console.log(buttons); // debug log - TODO: remove
+
+    // make npcs and have one button for each
+
+    let npcs = [];
+
+    for(let i = 0; i < buttons.length; i++){
+        let killButton = {
+            ...buttonTemplate,
+            button_name: `Â§bÂ§lKill NPC`,
+            data: [
+                {"cmd_line":"kill@e[type=npc,r=1]","cmd_ver":12}
+            ],
+            text: "no peeky (<3 mmccall0813#0943)"
+        }
+        // console.log(buttons[i])
+        // console.log(JSON.stringify(killButton), JSON.stringify(buttons[i]))
+        npcs.push(
+            `{Block:{name:"minecraft:moving_block",states:{},version:17959425},Count:1b,Damage:0s,Slot:<!SLOTPLACEHOLDER!>,Name:"minecraft:moving_block",WasPickedUp:0b,tag:{display:{Lore:["Â§rÂ§ePlace in the Â§lNorthwestÂ§rÂ§e corner of the build.","Â§eMade with Â§b<3Â§rÂ§e by mmccall0813"],Name:"Â§eÂ§l(${i+1}/${buttons.length}) Â§rÂ§rMapart NPC Spawner"},ench:[{id:28s,lvl:1s}],movingBlock:{name:"minecraft:bee_nest"},movingEntity:{Occupants:[{ActorIdentifier:"minecraft:npc<>",SaveData:{InterativeText:"Â§lÂ§8Made with Â§c<3Â§8 by Â§rÂ§2mmccall0813#0943. Â§lÂ§6(${i+1}/${buttons.length})",Actions:"[`
+            + JSON.stringify(killButton) + "," + JSON.stringify(buttons[i]) +
+            `]",Persistent:1b,Variant:19},TicksLeftToStay:0}],id:"Beehive"},pistonPosX:0,pistonPosY:0,pistonPosZ:0}}`
+        )
+    }
+
+    // console.log(npcs); // debug log - TODO: remove
+
+    // generate shulker box with all the npcs
+    // if theres more than 27 npcs, make it a nested shulker box
+
+    let boxes = [];
+
+    for(let i = 0; i < npcs.length; i += 27){
+        let items = npcs.slice(i, i + 27);
+        items.forEach( (item, index) => {
+            items[index] = item.replace(/<!SLOTPLACEHOLDER!>/g, index + "b");
+        })
+
+        // console.log(items); // debug log - TODO: remove
+
+        boxes.push(
+            `{Block:{name:"minecraft:shulker_box",states:{color:"orange"},version:17959425},Count:1b,Damage:0s,Name:"minecraft:shulker_box",WasPickedUp:0b,Slot:${i/27}b,tag:{Items:[`
+            + items.join(",") +
+        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)"],Name:"Â§rÂ§lÂ§cMapart Shulker ${boxes.length === npcs.length > 27 ? "" : i/27 + 1}"},ench:[{id:28s,lvl:1s}]}}`
+        );
+    }
+
+    // console.log(boxes); // debug log - TODO: remove
+    // console.log("Boxes amount: " + boxes.length);
+    if(boxes.length === 1){
+        textArea.value = boxes[0];
+        // console.log("one box");
+    } else {
+        textArea.value = `{Block:{name:"minecraft:shulker_box",states:{color:"red"},version:17959425},Count:1b,Damage:0s,Name:"minecraft:shulker_box",WasPickedUp:0b,tag:{Items:[`
+        + boxes.join(",") +
+        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)"],Name:"Â§rÂ§lÂ§eMapart Shulker (nested)"},ench:[{id:28s,lvl:1s}]}}`;
+        // console.log("multiple boxes");
+    }
+
+    status.innerText = "Done!";
+    textArea.value = textArea.value.split("\\").join("");
+
+    setTimeout(() => {
+        status.innerText = "IDLE";
+    }, 5000);
+}
+
+function download(){
+    const textArea = document.getElementById("output");
+    let text = textArea.value;
+    let file = new Blob([text], {type: "text/plain;charset=utf-8"});
+
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, "mapart.json");
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = "mapart.json";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
 }
