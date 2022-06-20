@@ -100,6 +100,10 @@ function distance(block1, block2){ // distance between two blocks, in blocks
 } // will return a decimal if theres any diagonal distance, but that's fine
 
 async function convert(file){
+
+    // analytics event
+    amplitude.getInstance().logEvent('NBT_GENERATED');
+
     const buffer = await file.arrayBuffer();
     const nbt = await prismarineNbt.parse(Buffer.from(buffer));
     const schem = nbt.parsed.value;
