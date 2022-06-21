@@ -77,6 +77,24 @@ const javaToBedrock = {
     'minecraft:jungle_planks': 'minecraft:planks 3', // jungle planks
     'minecraft:acacia_planks': 'minecraft:planks 4', // acacia planks
     'minecraft:dark_oak_planks': 'minecraft:planks 5', // dark oak planks
+    // carpet
+    'minecraft:white_carpet': 'minecraft:carpet 0', // white carpet
+    'minecraft:orange_carpet': 'minecraft:carpet 1', // orange carpet
+    'minecraft:magenta_carpet': 'minecraft:carpet 2', // magenta carpet
+    'minecraft:light_blue_carpet': 'minecraft:carpet 3', // light blue carpet
+    'minecraft:yellow_carpet': 'minecraft:carpet 4', // yellow carpet
+    'minecraft:lime_carpet': 'minecraft:carpet 5', // lime carpet
+    'minecraft:pink_carpet': 'minecraft:carpet 6', // pink carpet
+    'minecraft:gray_carpet': 'minecraft:carpet 7', // gray carpet
+    'minecraft:light_gray_carpet': 'minecraft:carpet 8', // light gray carpet
+    'minecraft:cyan_carpet': 'minecraft:carpet 9', // cyan carpet
+    'minecraft:purple_carpet': 'minecraft:carpet 10', // purple carpet
+    'minecraft:blue_carpet': 'minecraft:carpet 11', // blue carpet
+    'minecraft:brown_carpet': 'minecraft:carpet 12', // brown carpet
+    'minecraft:green_carpet': 'minecraft:carpet 13', // green carpet
+    'minecraft:red_carpet': 'minecraft:carpet 14', // red carpet
+    'minecraft:black_carpet': 'minecraft:carpet 15', // black carpet
+    
 
     // other stuffs
     'minecraft:glow_lichen': 'minecraft:glow_lichen 1', // put it on the floor
