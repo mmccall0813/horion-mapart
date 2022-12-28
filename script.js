@@ -118,6 +118,11 @@ function distance(block1, block2){ // distance between two blocks, in blocks
 } // will return a decimal if theres any diagonal distance, but that's fine
 
 async function convert(file){
+    const textArea = document.getElementById('output');
+    textArea.value = '';
+    const status = document.getElementById('status');
+
+    status.innerText = 'Converting...';
 
     // analytics event
     amplitude.getInstance().logEvent('NBT_GENERATED');
@@ -127,12 +132,6 @@ async function convert(file){
     const schem = nbt.parsed.value;
 
     // console.log(schem); // debug log - TODO: remove
-
-    const textArea = document.getElementById('output');
-    textArea.value = '';
-    const status = document.getElementById('status');
-
-    status.innerText = 'Converting...';
 
     // Convert all blocks in the schematic to setblock and fill commands
     
@@ -219,7 +218,7 @@ async function convert(file){
     commands.forEach( (command) => {
         lines.push({
             "cmd_line": command,
-            "cmd_ver": 12 // this line required for the button to show up, its annoying but its required
+            "cmd_ver": 24 // this line required for the button to show up, its annoying but its required
         })
     })
     // save a little memory by removing the commands array
@@ -278,55 +277,35 @@ async function convert(file){
         // old kill button
         // add kill command to the end of this button
         buttons[i].data.push({
-            "cmd_line": "kill@e[type=npc,r=1]",
-            "cmd_ver": 12
+            "cmd_line": "dialogue open @e[type=npc,name=SPLITHERE\"npc"+(i+2)+"SPLITHERE\"] @p",
+            "cmd_ver": 24
+        },
+        {
+            "cmd_line": "kill @s",
+            "cmd_ver": 24
         })
 
         // console.log(buttons[i])
         // console.log(JSON.stringify(killButton), JSON.stringify(buttons[i]))
         npcs.push(
-            `{Block:{name:"minecraft:moving_block",states:{},version:17959425},Count:1b,Damage:0s,Slot:<!SLOTPLACEHOLDER!>,Name:"minecraft:moving_block",WasPickedUp:0b,tag:{display:{Lore:["Â§rÂ§ePlace in the Â§lNorthwestÂ§rÂ§e corner of the build.","Â§eMade with Â§b<3Â§rÂ§e by mmccall0813", "Â§rÂ§lÂ§cImported from ${file.name}"],Name:"Â§eÂ§l(${i+1}/${buttons.length}) Â§rÂ§rMapart NPC Spawner"},ench:[{id:28s,lvl:1s}],movingBlock:{name:"minecraft:bee_nest"},movingEntity:{Occupants:[{ActorIdentifier:"minecraft:npc<>",SaveData:{InterativeText:"Â§lÂ§8Made with Â§c<3Â§8 by Â§rÂ§2mmccall0813#0943. Â§lÂ§6(${i+1}/${buttons.length})",Actions:"[`
+            `{ActorIdentifier:"minecraft:npc<>",SaveData:{InterativeText:"Â§lÂ§8Made with Â§c<3Â§8 by Â§rÂ§2mmccall0813#0943. Â§lÂ§6(${i+1}/${buttons.length})",Actions:"[`
             + JSON.stringify(buttons[i]) +
-            `]",Persistent:1b,Variant:19},TicksLeftToStay:0}],id:"Beehive"},pistonPosX:0,pistonPosY:0,pistonPosZ:0}}`
+            `]",CustomName:"npc${i+1}",RawtextName:"npc${i+1}",Persistent:1b,Variant:19,identifier:"npc",Pos:[]},TicksLeftToStay:0}`
         )
     }
+    // puts every npc into one movingblock
+    let block = [];
+    block.push(
+        `{Block:{name:"minecraft:moving_block",states:{},version:17959425},Count:1b,Damage:0s,Slot:<!SLOTPLACEHOLDER!>,Name:"minecraft:moving_block",WasPickedUp:0b,tag:{display:{Lore:["Â§rÂ§ePlace in the Â§lNorthwestÂ§rÂ§e corner of the build.","Â§eMade with Â§b<3Â§rÂ§e by mmccall0813", "Â§rÂ§lÂ§cImported from ${file.name}"],Name:"Â§eÂ§l(${i+1}/${buttons.length}) Â§rÂ§rMapart NPC Spawner"},ench:[{id:28s,lvl:1s}],movingBlock:{name:"minecraft:bee_nest"},movingEntity:{Occupants:[`
+        + npcs.join(",") +
+    `],id:"Beehive"},pistonPosX:0,pistonPosY:0,pistonPosZ:0}}`
+    );
 
-    // console.log(npcs); // debug log - TODO: remove
-
-    // generate shulker box with all the npcs
-    // if theres more than 27 npcs, make it a nested shulker box
-
-    let boxes = [];
-
-    for(let i = 0; i < npcs.length; i += 27){
-        let items = npcs.slice(i, i + 27);
-        items.forEach( (item, index) => {
-            items[index] = item.replace(/<!SLOTPLACEHOLDER!>/g, index + "b");
-        })
-
-        // console.log(items); // debug log - TODO: remove
-
-        boxes.push(
-            `{Block:{name:"minecraft:shulker_box",states:{color:"orange"},version:17959425},Count:1b,Damage:0s,Name:"minecraft:shulker_box",WasPickedUp:0b,Slot:${i/27}b,tag:{Items:[`
-            + items.join(",") +
-        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)", "Â§rÂ§lÂ§cImported from ${file.name}"],Name:"Â§rÂ§lÂ§cMapart Shulker ${boxes.length === npcs.length > 27 ? "" : i/27 + 1}"},ench:[{id:28s,lvl:1s}]}}`
-        );
-    }
-
-    // console.log(boxes); // debug log - TODO: remove
-    // console.log("Boxes amount: " + boxes.length);
-    if(boxes.length === 1){
-        textArea.value = boxes[0];
-        // console.log("one box");
-    } else {
-        textArea.value = `{Block:{name:"minecraft:shulker_box",states:{color:"red"},version:17959425},Count:1b,Damage:0s,Name:"minecraft:shulker_box",WasPickedUp:0b,tag:{Items:[`
-        + boxes.join(",") +
-        `],RepairCost:0,display:{Lore:["Â§bMade with <3 by mmccall0813#0943 :)", "Â§rÂ§lÂ§cImported from ${file.name}"],Name:"Â§rÂ§lÂ§eMapart Shulker (nested)"},ench:[{id:28s,lvl:1s}]}}`;
-        // console.log("multiple boxes");
-    }
+    // puts everything into the textarea
+    textArea.value = block[0];
 
     status.innerText = "Done!";
-    textArea.value = textArea.value.split("\\").join("");
+    textArea.value = textArea.value.split("\\").join("").split("SPLITHERE").join("\\\\\\").split("npc"+(buttons.length+1)+"\\").join("npc1\\");
 
     setTimeout(() => {
         status.innerText = "IDLE";
