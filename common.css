@@ -1,0 +1,93 @@
+/* scrollbar */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* broad css */
+body {
+    /* Dark-mode style */
+    background-color: #313131;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    margin: 0px;
+}
+h1 {
+    margin: 0px;
+}
+textarea {
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 100px;
+    max-height: 500px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-family: "Monocraft";
+    box-sizing: border-box;
+    padding: 5px;
+    word-wrap:normal;
+    cursor: text;
+}
+a {
+    color: rgb(83, 210, 226);
+}
+
+/* specific css */
+.navbar {
+    text-align: center;
+    background-color: #121212;
+    padding: 50px;
+    font-size: 50px;
+    font-family: "Monocraft";
+}
+.navbar h1 {
+    line-height: 100px;
+}
+.page-content {
+    margin: 20px;
+}
+.forewarning {
+    font-size: 20px;
+}
+.convert-area {
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: rgb(0, 136, 136);
+    width: 400px;
+    padding: 20px;
+    margin: 20px 40px 20px 0px;
+    float: left;
+}
+.convert-area > .status {
+    font-size: 25px;
+    font-weight: bold;
+}
+.convert-area > .status #status {
+    font-size: 80%;
+}
+.convert-area input {
+    /* work on it late */
+    display: block;
+}
+.convert-area button {
+    width: 80%;
+    background-color: #35c2f2;
+    border-radius: 5px;
+    font-size: 20px;
+    border: 2px solid black;
+}
+.tipsndirections {
+    padding-top: 20px;
+}
+.tipsndirections > .title {
+    font-size: 30px;
+    text-align: center;
+}
+.tipsndirections ul {
+    margin-top: 5px;
+}
