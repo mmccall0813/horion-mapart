@@ -24,7 +24,7 @@ textarea {
     color: black;
     border: 2px solid black;
     border-radius: 10px;
-    font-family: "Monocraft";
+    font-family: "misc/monocraft-webfont.woff";
     box-sizing: border-box;
     padding: 5px;
     word-wrap:normal;
@@ -71,6 +71,7 @@ ul > ul {
     width: 400px;
     padding: 20px;
     margin: 20px 0px;
+    height: min-content;
 }
 .convert-area > .status {
     font-size: 25px;
@@ -95,7 +96,7 @@ ul > ul {
 }
 .tipsndirections > .title {
     font-size: 30px;
-    text-align: center;
+    padding-left: 30px;
 }
 .tipsndirections > ul {
     margin-top: 5px;
