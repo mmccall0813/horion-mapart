@@ -317,7 +317,7 @@ function download(){
     let text = textArea.value;
     let file = new Blob([text], {type: "text/plain;charset=utf-8"});
     let fileInput = document.getElementById("file");
-    let filename = fileInput.files[0].name.replace(/\.[^/.]+$/, "") + ".json";
+    let filename = fileInput.files[0].name.replace(/\.[^/.]+$/, "") + ".txt";
 
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);

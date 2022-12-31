@@ -2,13 +2,15 @@
 
 <html lang="en">
     <head>
+        <title>Horion Mapart Converter</title>
+        <link rel="stylesheet" href="common.css">
+        <link rel="icon" href="images/favicon.ico">
+        <script src="js/shitty-web-analytics.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Horion Mapart Converter</title>
-        <script src="pnbt.min.js"></script>
-        <script src="script.js"></script>
-        <!-- Shitty web analytics -->
+        <script src="js/pnbt.min.js"></script>
+        <script src="js/script.js"></script>
         <script type="text/javascript">
             (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
             ;r.type="text/javascript"
@@ -38,14 +40,13 @@
 
             amplitude.getInstance().logEvent("Page Loaded");
         </script>
-        <!-- End of shitty web analytics -->
-        <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="favicon.ico">
     </head>
     <body>
         <div>
-            <h1>Horion Mapart Converter</h1>
-            <div>Convert mapart from <a href="https://rebane2001.com/mapartcraft/">MapartCraft</a> to Horion NBT</div>
+            <div class="navbar">
+                <h1>Horion Mapart<br>Converter</h1>
+            </div>
+            <!-- <div>Convert mapart from <a href="https://rebane2001.com/mapartcraft/">MapartCraft</a> to Horion NBT</div>
             <br>
             <div>Unfortunately, due to limitations with Minecraft NPCs, all setblock and fill commands cannot be put into one.<br>Due to this limitation, have to split the commands into multiple NPCs, placing them one after the other and pressing the Build button.</div>
             <br>
@@ -73,15 +74,33 @@
                 </ul>
             </div>
             <br>
-        </div>
-        <div>
-            <!-- Upload file, call js function with buffer of uploaded file -->
-            <div>Status: <span id="status">IDLE</span></div>
-            <input type="file" id="file" onchange="convert(this.files[0])">
-            <br>
-            <textarea id="output" spellcheck="false">Output Horion NBT here</textarea>
-            <br>
-            <button onclick="download()">Download</button>
+        </div> -->
+        <div class="page-content">
+            <div class="forewarning">Due to limitations minecraft put on NPCs, the commands have to be split up into multiple NPCs. To combat this, the generator puts all the npcs into one block and puts a command in each npcs to open the next NPCs dialogue</div>
+            <div class="convert-area">
+                <!-- Upload file, call js function with buffer of uploaded file -->
+                <div class="status">Status: <span id="status">IDLE</span></div>
+                <input type="file" id="file" title="input" onchange="convert(this.files[0])">
+                <textarea id="output" title="output" spellcheck="false" disabled placeholder="Output Horion NBT here"></textarea>
+                <button type="button" onclick="download()">Download</button>
+            </div>
+            <div class="tipsndirections">
+                <div class="title">Usage</div>
+                <ul>
+                    <li>Use <a href="https://rebane2001.com/mapartcraft/">MapArtcraft</a> to turn your image into a .nbt file</li>
+                        <ul>
+                            <li class="warning">THIS IS NOT A HORION NBT</li>
+                            <li>It's suggested you turn off staircasing</li>
+                            <li>Use the "everything" block preset</li>
+                        </ul>
+                    <li>Adjust the options on the right as needed</li>
+                        <ul>
+                            <li>Specifically, mess with the dithering and brightness</li>
+                        </ul>
+                    <li>Press the <b>Download NBT</b> button, and import the downloaded .nbt file here</li>
+                    <li>The file will automatically be converted and you can copy it from the textbox or download it as a text file</li>
+                </ul>
+            </div>
         </div>
     </body>
 </html>
