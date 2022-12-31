@@ -30,7 +30,7 @@ textarea {
     color: black;
     border: 2px solid black;
     border-radius: 10px;
-    font-family: "Monocraft";
+    font-family: "misc/monocraft-webfont.woff";
     box-sizing: border-box;
     padding: 5px;
     word-wrap:normal;
