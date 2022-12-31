@@ -82,12 +82,15 @@
                 <div class="status">Status: <span id="status">IDLE</span></div>
                 <input type="file" id="file" title="input" onchange="convert(this.files[0])">
                 <textarea id="output" title="output" spellcheck="false" disabled placeholder="Output Horion NBT here"></textarea>
-                <button type="button" onclick="download()">Download</button>
+                <div class="buttons">
+                    <button type="button" onclick="download()">Download</button>
+                    <button type="button" onclick="copy(this)">Copy</button>
+                </div>
             </div>
             <div class="tipsndirections">
                 <div class="title">Usage</div>
                 <ul>
-                    <li>Use <a href="https://rebane2001.com/mapartcraft/">MapArtcraft</a> to turn your image into a .nbt file</li>
+                    <li>Use <a href="https://rebane2001.com/mapartcraft/" target="_blank">MapArtcraft</a> to turn your image into a .nbt file</li>
                         <ul>
                             <li class="warning">THIS IS NOT A HORION NBT</li>
                             <li>It's suggested you turn off staircasing</li>

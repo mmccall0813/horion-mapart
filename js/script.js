@@ -210,9 +210,6 @@ async function convert(file){
     // save a little memory by removing the clumps array
     clumps = null;
 
-    // how many commands do we have?
-    //console.log("Commands amount: " + commands.length); // debug log - TODO: remove
-
     // convert commands to npc lines
     let lines = [];
     commands.forEach( (command) => {
@@ -222,20 +219,15 @@ async function convert(file){
         })
     })
     // save a little memory by removing the commands array
-    // console.log(commands[0]);
     commands = null;
 
-    // console.log(lines); // debug log - TODO: remove
-
-    // seperate into chunks of 400 lines
     let chunks = [];
-
+    
+    // seperate into chunks of 400 lines
+    // we can cram about 400 commands into a single npc before we get size errors
     for(let i = 0; i < lines.length; i += 400){
         chunks.push(lines.slice(i, i + 400));
     }
-
-    // console.log(chunks);
-    // console.log("NPC amount: " + chunks.length);
 
     let buttons = [];
     let buttonTemplate = {
@@ -245,7 +237,7 @@ async function convert(file){
         ],
         "mode": 0, // 0 = button, 1, 1 = on enter, 2 = on exit
         "text": "", // what shows in the command editor, oddly different from the command lines
-        "type": 1 // no clue what this does, might be 0 = command, 1 = url
+        "type": 1
     }
 
     // convert chunks to npc buttons
@@ -257,24 +249,10 @@ async function convert(file){
         buttons.push(button);
     }
 
-    // console.log(buttons); // debug log - TODO: remove
-
     // make npcs and have one button for each
-
     let npcs = [];
 
     for(let i = 0; i < buttons.length; i++){
-        /*
-        let killButton = {
-            ...buttonTemplate,
-            button_name: `Â§bÂ§lKill NPC`,
-            data: [
-                {"cmd_line":"kill@e[type=npc,r=1]","cmd_ver":12}
-            ],
-            text: "no peeky (<3 mmccall0813#0943)"
-        }
-        */
-        // old kill button
         // add kill command to the end of this button
         buttons[i].data.push({
             "cmd_line": "dialogue open @e[type=npc,name=SPLITHERE\"npc"+(i+2)+"SPLITHERE\"] @p",
@@ -285,8 +263,6 @@ async function convert(file){
             "cmd_ver": 24
         })
 
-        // console.log(buttons[i])
-        // console.log(JSON.stringify(killButton), JSON.stringify(buttons[i]))
         npcs.push(
             `{ActorIdentifier:"minecraft:npc<>",SaveData:{InterativeText:"Â§lÂ§8Made with Â§c<3Â§8 by Â§rÂ§2mmccall0813#0943. Â§lÂ§6(${i+1}/${buttons.length})",Actions:"[`
             + JSON.stringify(buttons[i]) +
@@ -305,6 +281,8 @@ async function convert(file){
     textArea.value = block[0];
 
     status.innerText = "Done!";
+
+    // TODO: figure out what the fuck this line does lol
     textArea.value = textArea.value.split("\\").join("").split("SPLITHERE").join("\\\\\\").split("npc"+(buttons.length+1)+"\\").join("npc1\\");
 
     setTimeout(() => {
@@ -333,4 +311,34 @@ function download(){
             window.URL.revokeObjectURL(url);  
         }, 0); 
     }
+}
+
+function copy(button){
+    const textArea = document.getElementById("output");
+    let text = textArea.value;
+    
+    navigator.clipboard.writeText(text).then(
+        () => {
+            // clipboard copy success
+            console.log("clipboard copy")
+
+            button.innerText = "Copied!"
+
+            setTimeout( () => {
+                button.innerText = "Copy"
+            }, 500)
+        }, 
+        () => {
+            // clipboard copy failed
+            console.log("copy failed")
+
+            button.innerText = "Copy Failed"
+
+            setTimeout( () => {
+                button.innerText = "Copy"
+            })
+
+        }
+    )
+
 }
