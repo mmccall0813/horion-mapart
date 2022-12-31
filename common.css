@@ -6,7 +6,7 @@
 /* header font */
 @font-face {
     font-family: "Monocraft";
-    src: url("./misc/Monocraft.otf") format("opentype");
+    src: url("./misc/monocraft-webfont.woff") format("woff");
 }
 
 /* broad css */
@@ -30,7 +30,7 @@ textarea {
     color: black;
     border: 2px solid black;
     border-radius: 10px;
-    font-family: "misc/monocraft-webfont.woff";
+    font-family: "Monocraft";
     box-sizing: border-box;
     padding: 5px;
     word-wrap:normal;
