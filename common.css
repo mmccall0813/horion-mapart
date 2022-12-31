@@ -3,6 +3,12 @@
     display: none;
 }
 
+/* header font */
+@font-face {
+    font-family: "Monocraft";
+    src: url("./misc/Monocraft.otf") format("opentype");
+}
+
 /* broad css */
 body {
     /* Dark-mode style */
@@ -71,6 +77,7 @@ ul > ul {
     width: 400px;
     padding: 20px;
     margin: 20px 0px;
+    height: min-content;
 }
 .convert-area > .status {
     font-size: 25px;
@@ -95,7 +102,7 @@ ul > ul {
 }
 .tipsndirections > .title {
     font-size: 30px;
-    text-align: center;
+    padding-left: 30px;
 }
 .tipsndirections > ul {
     margin-top: 5px;
