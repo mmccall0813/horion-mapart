@@ -5,12 +5,12 @@
         <title>Horion Mapart Converter</title>
         <link rel="stylesheet" href="common.css">
         <link rel="icon" href="images/favicon.ico">
+        <script src="js/shitty-web-analytics.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <script src="js/pnbt.min.js"></script>
         <script src="js/script.js"></script>
-        <script src="js/shitty-web-analytics.js"></script>
     </head>
     <body>
         <div>
@@ -58,10 +58,17 @@
             <div class="tipsndirections">
                 <div class="title">Usage</div>
                 <ul>
-                    <li>Use <a href="https://rebane2001.com/mapartcraft/">MapArtcraft</a> to turn your image into a nbt</li>
-                    <li>From the left, select the blocks you want to use, if you're not sure, just use the Everything preset</li>
-                    <li>Adjust the options on the right (mess around with dithering and brightness to make your image look best)</li>
-                    <li>Hit the <b>Download NBT</b> button, and import the downloaded .nbt file here</li>
+                    <li>Use <a href="https://rebane2001.com/mapartcraft/">MapArtcraft</a> to turn your image into a .nbt file</li>
+                        <ul>
+                            <li class="warning">THIS IS NOT A HORION NBT</li>
+                            <li>It's suggested you turn off staircasing</li>
+                            <li>Use the "everything" block preset</li>
+                        </ul>
+                    <li>Adjust the options on the right as needed</li>
+                        <ul>
+                            <li>Specifically, mess with the dithering and brightness</li>
+                        </ul>
+                    <li>Press the <b>Download NBT</b> button, and import the downloaded .nbt file here</li>
                     <li>The file will automatically be converted and you can copy it from the textbox or download it as a text file</li>
                 </ul>
             </div>
